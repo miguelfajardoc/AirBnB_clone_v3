@@ -2,10 +2,10 @@
 """
 module of api
 """
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
-import os
+from os import getenv
 
 
 app = Flask(__name__)
