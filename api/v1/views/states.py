@@ -44,6 +44,8 @@ def delete_state_id(state_id):
 def post_state():
     """use the post method to create"""
     try:
+        if not request.is_json:
+             return make_response(jsonify({'error': 'Not a JSON'}), 400)
         req = request.get_json()
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
@@ -70,4 +72,4 @@ def put_state(state_id):
             setattr(state, key, value)
     storage.save()
     storage.close()
-    return(jsonify(state.to_dict()))
+    return(jsonify(state.to_dict()), 200)
