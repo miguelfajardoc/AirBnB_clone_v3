@@ -12,7 +12,7 @@ def status():
     return (jsonify({"status": "OK"}))
 
 
-@app_number_of_objects.route('/api/v1/stats', strict_slashes=False)
+@app_views.route('/stats', strict_slashes=False)
 def endpoint():
     """define an endpoint that retrives the number
        of objects by type"""
