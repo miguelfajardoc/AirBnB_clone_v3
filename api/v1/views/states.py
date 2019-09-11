@@ -65,8 +65,8 @@ def put_state(state_id):
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for key, value in req.items():
-        if key is not 'id' and key is not 'created_at' and key is not
-        'updated_at':
+        if key is not 'id' and key is not 'created_at' and key is not\
+           'updated_at':
             setattr(state, key, value)
     storage.save()
     storage.close()
