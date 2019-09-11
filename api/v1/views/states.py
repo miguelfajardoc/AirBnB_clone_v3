@@ -45,7 +45,7 @@ def post_state():
     """use the post method to create"""
     try:
         if not request.is_json:
-             return make_response(jsonify({'error': 'Not a JSON'}), 400)
+            return make_response(jsonify({'error': 'Not a JSON'}), 400)
         req = request.get_json()
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
@@ -63,6 +63,8 @@ def put_state(state_id):
     if state is None:
         abort(404)
     try:
+        if not request.is_json:
+            return make_response(jsonify({'error': 'Not a JSON'}), 400)
         req = request.get_json()
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
