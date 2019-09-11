@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-module of api
+module to create the instance and the context
 """
 from flask import Flask, jsonify, make_response
 from models import storage
@@ -14,10 +14,13 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown(exception):
+    """teardown function to close"""
     storage.close()
+
 
 @app.errorhandler(404)
 def not_found(error):
+    """handle errors"""
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == "__main__":
