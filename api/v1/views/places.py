@@ -34,7 +34,7 @@ def place_id(place_id):
 def place_delete(place_id):
     """ delete a place by id """
     place = storage.get("Place", place_id)
-    if place_id is None:
+    if place is None:
         abort(404)
     else:
         storage.delete(place)
@@ -66,7 +66,6 @@ def place_post(city_id):
         return make_response(jsonify({'error': 'Missing name'}), 400)
     req["city_id"] = city_id
     new_place = Place(**req)
-    storage.new(new_place)
     new_place.save()
     return(jsonify(new_place.to_dict()), 201)
 
