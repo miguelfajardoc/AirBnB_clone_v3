@@ -8,19 +8,19 @@ import models
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def cities_state():
+def cities_state(state_id):
     """ return all cities of an states """
-    states = state.get("State", state_id)
+    states = storage.get("State", state_id)
     if states is None:
         abort(404)
     state_cities = []
-    for key in states.cities:
-        state_cities.append(city[key].to_dict())
+    for city in states.cities:
+        state_cities.append(city.to_dict())
     return (jsonify(state_cities))
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
-def city_id(state_id):
+def city_id(city_id):
     """ return a city by id """
     city = storage.get("City", city_id)
     if city is not None:
@@ -31,9 +31,9 @@ def city_id(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_city_id(state_id):
+def city_delete(city_id):
     """ delete a city by id """
-    city = storage.get("State", city_id)
+    city = storage.get("City", city_id)
     if city is None:
         abort(404)
     else:
@@ -44,7 +44,7 @@ def delete_city_id(state_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
-def post_state():
+def city_post(state_id):
     """use the post method to create"""
     try:
         if not request.is_json:
@@ -55,12 +55,11 @@ def post_state():
     dict_name = req.get("name")
     if dict_name is None:
         return make_response(jsonify({'error': 'Missing name'}), 400)
-    state = state.get("State", id)
+    state = storage.get("State", state_id)
     if state is None:
         abort(404)
-    new_city = City()
-    new_city.state_id = id
-    new_city.name = name
+    req["state_id"] = state_id
+    new_city = City(**req)
     new_city.save()
     return(jsonify(new_city.to_dict()), 201)
 
@@ -80,7 +79,7 @@ def put_city(city_id):
     for key, value in req.items():
         if key is not 'id' and key is not 'created_at' and key is not\
            'updated_at':
-            setattr(state, key, value)
+            setattr(city, key, value)
     storage.save()
     storage.close()
     return(jsonify(city.to_dict()), 200)
