@@ -60,11 +60,9 @@ def place_post(city_id):
         return make_response(jsonify({'error': 'Missing user_id'}), 400)
     user = storage.get("User", user_id)
     if user is None:
-        print("abort user")
         abort(404)
     city = storage.get("City", city_id)
     if city is None:
-        print("abort city")
         abort(404)
     req["city_id"] = city_id
     new_place = Place(**req)
