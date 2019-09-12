@@ -17,7 +17,8 @@ def amenities():
     return (jsonify(L_amenities))
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
+                 strict_slashes=False)
 def amenities_id(amenity_id):
     """ return an amenity by id """
     amenity = storage.get("Amenity", amenity_id)
@@ -58,7 +59,8 @@ def post_amenities():
     return(jsonify(new_amenity.to_dict()), 201)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def put_amenity(amenity_id):
     """ actualice an amenity by his id """
     amenity = storage.get("Amenity", amenity_id)

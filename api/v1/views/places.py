@@ -55,11 +55,19 @@ def place_post(city_id):
     dict_name = req.get("name")
     if dict_name is None:
         return make_response(jsonify({'error': 'Missing name'}), 400)
+    user_id = req.get("user_id")
+    if user_id is None:
+        return make_response(jsonify({'error': 'Missing user_id'}), 400)
+    user = storage.get("User", user_id)
+    if user is None:
+        print("abort user")
+        abort(404)
     city = storage.get("City", city_id)
     if city is None:
         abort(404)
     req["city_id"] = city_id
     new_place = Place(**req)
+    storage.new(new_place)
     new_place.save()
     return(jsonify(new_place.to_dict()), 201)
 
