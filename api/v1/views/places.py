@@ -64,6 +64,7 @@ def place_post(city_id):
         abort(404)
     city = storage.get("City", city_id)
     if city is None:
+        print("abort city")
         abort(404)
     req["city_id"] = city_id
     new_place = Place(**req)
@@ -76,6 +77,7 @@ def place_post(city_id):
 def put_Place(place_id):
     """ update a place by his id """
     place = storage.get("Place", place_id)
+    exceptions = ["id", "user_id", "created_at", "updated_at", "city_id"]
     if place is None:
         abort(404)
     try:
@@ -85,8 +87,7 @@ def put_Place(place_id):
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for key, value in req.items():
-        if key is not 'id' and key is not 'created_at' and key is not\
-           'updated_at':
+        if key not in exceptions:
             setattr(place, key, value)
     storage.save()
     storage.close()

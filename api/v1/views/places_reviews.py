@@ -31,7 +31,7 @@ def review_id(review_id):
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def review_delete(city_id):
+def review_delete(review_id):
     """ delete a review by id """
     review = storage.get("Review", review_id)
     if review is None:
@@ -70,9 +70,10 @@ def review_post(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
-def review_city(review_id):
+def review_place(review_id):
     """ update a review by his id """
     review = storage.get("Review", review_id)
+    exceptions = ["id", "user_id", "place_id", "created_at", "updated_at"]
     if review is None:
         abort(404)
     try:
@@ -82,10 +83,8 @@ def review_city(review_id):
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for key, value in req.items():
-        if key is not 'id' and key is not 'created_at' and key is not\
-           'updated_at' and key is not 'user_id' and key is not\
-           'place_id':
+        if key not in exceptions:
             setattr(review, key, value)
     storage.save()
     storage.close()
-    return(jsonify(city.to_dict()), 200)
+    return(jsonify(review.to_dict()), 200)
