@@ -46,24 +46,24 @@ def place_delete(place_id):
                  strict_slashes=False)
 def place_post(city_id):
     """use the post method to create"""
+    city = storage.get("City", city_id)
+    if city is None:
+        abort(404)
     try:
         if not request.is_json:
             return make_response(jsonify({'error': 'Not a JSON'}), 400)
         req = request.get_json()
     except:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    dict_name = req.get("name")
-    if dict_name is None:
-        return make_response(jsonify({'error': 'Missing name'}), 400)
     user_id = req.get("user_id")
     if user_id is None:
         return make_response(jsonify({'error': 'Missing user_id'}), 400)
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
-    city = storage.get("City", city_id)
-    if city is None:
-        abort(404)
+    dict_name = req.get("name")
+    if dict_name is None:
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     req["city_id"] = city_id
     new_place = Place(**req)
     storage.new(new_place)
