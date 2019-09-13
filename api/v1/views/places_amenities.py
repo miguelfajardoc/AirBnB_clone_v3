@@ -6,7 +6,8 @@ from models import storage, State, Amenity
 import models
 
 
-@app_views.route('/places/<place_id>/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/places/<place_id>/amenities', methods=['GET'],
+                 strict_slashes=False)
 def place_amenity(place_id):
     """ return all amenity belongs to a place """
 
@@ -23,9 +24,8 @@ def place_amenity(place_id):
     print(list(amenities))
 
 
-
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_amenity_place(place_id, amenity_id):
     """ delete an amenity in some place """
 
@@ -71,7 +71,7 @@ def post_amenity_place(place_id, amenity_id):
                 place.amenities.append(amenity)
                 return jsonify(amenity.to_dic()), 201
     else:
-        all_amenities =list(map(lambda y: y.to_dict(), place.amenities))
+        all_amenities = list(map(lambda y: y.to_dict(), place.amenities))
         for ameni in all_amenities:
             if amenity.id in ameni and place.id in ameni:
                 return jsonify(amenity.to_dic())
