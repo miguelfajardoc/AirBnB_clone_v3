@@ -30,16 +30,16 @@ class FileStorage:
             Returns the object based on the class name and its ID,
             or None if not found
         """
-        key = cls + '.' + id
-        return self.__objects.get(key)
+        llave = cls + '.' + id
+        return self.__objects.get(llave)
 
     def count(self, cls=None):
         """ cls= string representation of class name
         Returns the number of objects in storage matching the given class name.
         If no name is passed, returns the count of all objects in storage.
         """
-        objects = self.all(cls)
-        return len(objects)
+        object = self.all(cls)
+        return len(object)
 
     def all(self, cls=None):
         """returns the dictionary __objects"""
