@@ -46,17 +46,17 @@ class DBStorage:
             Returns the object based on the class name and its ID,
             or None if not found
         """
-        object = self.all(cls)
+        objects = self.all(cls)
         key = cls + '.' + id
-        return object.get(key)
+        return objects.get(key)
 
     def count(self, cls=None):
         """ cls= string representation of class name
         Returns the number of objects in storage matching the given class name.
         If no name is passed, returns the count of all objects in the storage.
         """
-        object = self.all(cls)
-        return len(object)
+        objects = self.all(cls)
+        return len(objects)
 
     def all(self, cls=None):
         """query on the current database session"""
